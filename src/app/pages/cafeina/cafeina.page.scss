@@ -1,0 +1,67 @@
+ion-header ion-toolbar {
+    --background: #ff6275;  
+    color: white;
+  }
+  
+  ion-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  /* Estilo para las tarjetas */
+  ion-card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+  }
+  
+  ion-card-header {
+    background-color: #f0f0f5;
+    border-bottom: 2px solid #3880ff;
+  }
+  
+  ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Estilo para el contenido de la tarjeta */
+  ion-card-content {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  ion-item {
+    --background: none;
+    margin-top: 10px;
+  }
+  
+  ion-label {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Progreso de cafeína con un gradiente suave */
+  ion-progress-bar {
+    height: 12px;
+    --background: #e0e0e0;
+    --progress-background: linear-gradient(90deg, #32db64 0%, #3880ff 100%);
+  }
+  
+  /* Botón de recordatorio */
+  ion-button {
+    margin: 20px;
+    --background: #32db64;
+    --border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  /* Estilo para el mensaje de alerta cuando se supera el límite */
+  ion-label[color="danger"] {
+    color: #eb445a;
+    font-weight: bold;
+  }
+  

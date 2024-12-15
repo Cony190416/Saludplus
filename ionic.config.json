@@ -1,0 +1,7 @@
+{
+  "name": "Pluss",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

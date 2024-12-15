@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Geolocalización</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Botón para obtener la ubicación -->
+  <ion-button expand="block" (click)="getCurrentPosition()">Obtener posición</ion-button>
+
+  <!-- Tarjeta que muestra la latitud y longitud obtenidas -->
+  <ion-card *ngIf="latitude && longitude">
+    <ion-card-header>
+      <ion-card-title>Coordenadas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Latitud: {{ latitude }}</p>
+      <p>Longitud: {{ longitude }}</p>
+
+      <!-- Botón para copiar las coordenadas al portapapeles -->
+      <ion-button expand="block" (click)="copyToClipboard()">Copiar coordenadas</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <div>
+    <img src="assets/images/logo.jpg" style="max-width: 100%; height: auto;">
+  </div>
+</ion-content>
