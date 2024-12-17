@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular'; // Para mostrar alertas
+import { UsuarioService } from '../../services/usuario.service'; // Importación del servicio
 
 @Component({
   selector: 'app-registrate',
@@ -8,57 +9,66 @@ import { AlertController } from '@ionic/angular'; // Para mostrar alertas
   styleUrls: ['./registrate.page.scss'],
 })
 export class RegistratePage {
+  user = {
+    username: '',
+    email: '',
+    password: ''
+  };
 
-  nombre: string = '';
-  apellido: string = '';
-  telefono: string = '';
-  correo: string = '';
-  contrasena: string = '';
+  constructor(
+    private usuarioService: UsuarioService,
+    private router: Router,
+    private alertController: AlertController // Para las alertas
+  ) {}
 
-  constructor(private router: Router, private alertController: AlertController) {}
-
-  async registrarUsuario() {
-    if (!this.nombre || !this.apellido || !this.telefono || !this.correo || !this.contrasena) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Todos los campos son obligatorios.',
-        buttons: ['OK']
-      });
-      await alert.present();
-    } else if (!this.validarCorreo(this.correo)) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Por favor, introduce un correo válido.',
-        buttons: ['OK']
-      });
-      await alert.present();
-    } else if (this.contrasena.length < 6) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'La contraseña debe tener al menos 6 caracteres.',
-        buttons: ['OK']
-      });
-      await alert.present();
-    } else {
-      // Se guardan los datos en el localStorage
-      localStorage.setItem('correo', this.correo);
-      localStorage.setItem('contrasena', this.contrasena);
-
-      const alert = await this.alertController.create({
-        header: 'Éxito',
-        message: 'Tu cuenta ha sido creada exitosamente.',
-        buttons: ['OK']
-      });
-      await alert.present();
-
-      // Te lleva al login después de registrarse
-      this.router.navigate(['/login']);
+  // Método para validar formulario
+  private isValidForm(): boolean {
+    const { username, email, password } = this.user;
+    if (!username.trim()) {
+      this.mostrarAlerta('Error', 'El nombre de usuario es obligatorio.');
+      return false;
     }
+    if (!email.trim() || !this.isValidEmail(email)) {
+      this.mostrarAlerta('Error', 'Por favor, introduce un correo válido.');
+      return false;
+    }
+    if (password.length < 6) {
+      this.mostrarAlerta('Error', 'La contraseña debe tener al menos 6 caracteres.');
+      return false;
+    }
+    return true;
+  }
+
+  // Método para mostrar alertas
+  private async mostrarAlerta(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   // Validación del formato del correo
-  validarCorreo(correo: string): boolean {
+  private isValidEmail(email: string): boolean {
     const regex = /\S+@\S+\.\S+/;
-    return regex.test(correo);
+    return regex.test(email);
+  }
+
+  // Método principal para registrar al usuario
+  onSubmit() {
+    if (!this.isValidForm()) return;
+
+    this.usuarioService.register(this.user).subscribe(
+      (response) => {
+        console.log('Usuario registrado:', response);
+        this.mostrarAlerta('Éxito', 'Registro exitoso. Ahora puedes iniciar sesión.');
+        this.router.navigate(['/login']);
+      },
+      (error) => {
+        console.error('Error al registrar usuario:', error);
+        this.mostrarAlerta('Error', 'Hubo un problema al registrar el usuario. Inténtalo de nuevo.');
+      }
+    );
   }
 }

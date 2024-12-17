@@ -4,7 +4,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -12,6 +12,7 @@ import { RouteReuseStrategy } from '@angular/router';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,  // Este módulo ya incluye RouterModule
+    HttpClientModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent]
